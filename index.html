@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibrahim Fayez Mohamed — Mechatronics & Robotics Engineer</title>
+<meta name="description" content="Portfolio of Ibrahim Fayez Mohamed — Mechatronics & Robotics Engineering student at Ain Shams University. R&D Lead, UAV Designer, CAD Expert, Racing Team Engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:    #020C18;
+  --bg-base:    #060F1E;
+  --bg-card:    #0A1628;
+  --glass:      rgba(0,220,255,0.04);
+  --glass-b:    rgba(0,220,255,0.10);
+  --cyan:       #00DCFF;
+  --cyan-dim:   rgba(0,220,255,0.15);
+  --orange:     #FF5E1A;
+  --gold:       #FFB347;
+  --text:       #D6EAF8;
+  --text-muted: #4E7A99;
+  --text-dim:   #8BAFC8;
+  --font-head:  'Chakra Petch', sans-serif;
+  --font-body:  'DM Sans', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-deep); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+/* ─── CURSOR ─── */
+#cursor { position: fixed; width: 10px; height: 10px; background: var(--cyan); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.08s ease, opacity 0.2s; mix-blend-mode: screen; }
+#cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,220,255,0.45); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.22s ease, width 0.2s, height 0.2s, border-color 0.2s; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: rgba(0,220,255,0.3); border-radius: 2px; }
+
+/* ─── CANVAS ─── */
+#particle-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
+
+/* ─── NAV ─── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 6%; display: flex; align-items: center; justify-content: space-between; background: rgba(2,12,24,0.6); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(0,220,255,0.07); transition: background 0.4s; }
+.nav-logo { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; text-decoration: none; }
+.nav-logo span { color: var(--text-dim); font-weight: 300; }
+.nav-links { display: flex; gap: 2.4rem; list-style: none; }
+.nav-links a { font-family: var(--font-head); font-size: 0.72rem; font-weight: 500; color: var(--text-dim); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--cyan); transition: width 0.3s; }
+.nav-links a:hover { color: var(--cyan); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta { font-family: var(--font-head); font-size: 0.72rem; font-weight: 600; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(0,220,255,0.4); padding: 0.5rem 1.3rem; border-radius: 3px; transition: background 0.2s, box-shadow 0.2s; }
+.nav-cta:hover { background: rgba(0,220,255,0.1); box-shadow: 0 0 20px rgba(0,220,255,0.2); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 24px; height: 1px; background: var(--text-dim); }
+
+/* ─── SECTIONS ─── */
+section { position: relative; z-index: 1; }
+
+/* ─── HERO ─── */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 6% 4rem; overflow: hidden; }
+.hero-eyebrow { font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 1.6rem; display: flex; align-items: center; gap: 0.8rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; }
+.hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--cyan); }
+.hero-name { font-family: var(--font-head); font-size: clamp(3rem, 8vw, 7.5rem); font-weight: 700; line-height: 0.92; letter-spacing: -0.02em; color: var(--text); opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+.hero-name .accent { color: var(--cyan); }
+.hero-title { font-family: var(--font-head); font-size: clamp(0.9rem, 2.5vw, 1.4rem); font-weight: 300; color: var(--text-dim); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 1.2rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+.hero-tagline { max-width: 560px; margin-top: 1.8rem; font-size: 1.05rem; line-height: 1.7; color: var(--text-dim); opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+.hero-btns { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 2.6rem; opacity: 0; animation: fadeUp 0.8s 1.1s forwards; }
+.btn-primary { font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--bg-deep); background: var(--cyan); padding: 0.85rem 2.2rem; border-radius: 3px; border: none; cursor: pointer; transition: box-shadow 0.3s, transform 0.2s; box-shadow: 0 0 30px rgba(0,220,255,0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,220,255,0.5); }
+.btn-outline { font-family: var(--font-head); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--text); border: 1px solid rgba(0,220,255,0.35); padding: 0.85rem 2.2rem; border-radius: 3px; background: transparent; cursor: pointer; transition: background 0.3s, color 0.3s, transform 0.2s; }
+.btn-outline:hover { background: rgba(0,220,255,0.08); color: var(--cyan); transform: translateY(-2px); }
+.hero-stats { display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1.3s forwards; }
+.hero-stat-num { font-family: var(--font-head); font-size: 2.2rem; font-weight: 700; color: var(--cyan); line-height: 1; }
+.hero-stat-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.3rem; }
+.hero-badges { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 1rem; opacity: 0; animation: fadeLeft 1s 1.4s forwards; }
+.tech-badge { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--text-dim); border: 1px solid rgba(0,220,255,0.15); background: rgba(0,220,255,0.04); padding: 0.5rem 1rem; border-radius: 3px; backdrop-filter: blur(10px); transition: border-color 0.3s, color 0.3s, transform 0.3s; animation: pulse 3s ease-in-out infinite; white-space: nowrap; }
+.tech-badge:nth-child(2) { animation-delay: 0.5s; }
+.tech-badge:nth-child(3) { animation-delay: 1s; }
+.tech-badge:nth-child(4) { animation-delay: 1.5s; }
+.tech-badge:nth-child(5) { animation-delay: 2s; }
+.tech-badge:hover { border-color: var(--cyan); color: var(--cyan); transform: translateX(-4px); }
+.scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; animation: bounce 2s ease-in-out infinite; }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--cyan), transparent); }
+
+/* ─── DIVIDER ─── */
+.section-div { width: 100%; height: 1px; background: linear-gradient(to right, transparent, rgba(0,220,255,0.2), transparent); margin: 0 auto; }
+
+/* ─── SECTION COMMON ─── */
+.section-wrap { padding: 7rem 6%; max-width: 1300px; margin: 0 auto; }
+.section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--cyan); letter-spacing: 0.25em; text-transform: uppercase; display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+.section-label::before { content: ''; width: 30px; height: 1px; background: var(--cyan); }
+.section-heading { font-family: var(--font-head); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.5rem; }
+.section-heading .dim { color: var(--text-muted); }
+
+/* ─── ABOUT ─── */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+.about-visual { position: relative; aspect-ratio: 4/5; max-width: 420px; }
+.about-img-border { position: absolute; inset: 0; border: 1px solid rgba(0,220,255,0.2); border-radius: 4px; background: linear-gradient(135deg, var(--bg-card), rgba(0,220,255,0.04)); overflow: hidden; }
+.about-avatar-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+.avatar-icon { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,220,255,0.15), rgba(255,94,26,0.1)); border: 2px solid rgba(0,220,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.avatar-name { font-family: var(--font-head); font-size: 1.1rem; color: var(--text); text-align: center; font-weight: 600; }
+.avatar-role { font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.15em; text-align: center; text-transform: uppercase; }
+.about-corner { position: absolute; width: 50px; height: 50px; border-color: var(--cyan); }
+.corner-tl { top: -12px; left: -12px; border-top: 2px solid; border-left: 2px solid; }
+.corner-br { bottom: -12px; right: -12px; border-bottom: 2px solid; border-right: 2px solid; }
+.about-status { position: absolute; bottom: 1.5rem; left: 1.5rem; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); background: rgba(2,12,24,0.8); padding: 0.4rem 0.8rem; border-radius: 2px; border: 1px solid rgba(0,220,255,0.15); display: flex; align-items: center; gap: 0.5rem; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00FF88; animation: blink 1.5s ease-in-out infinite; }
+.about-text p { font-size: 1rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 1.2rem; }
+.about-text p strong { color: var(--text); }
+.about-highlight { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+.highlight-chip { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); background: rgba(0,220,255,0.07); border: 1px solid rgba(0,220,255,0.2); padding: 0.35rem 0.8rem; border-radius: 2px; }
+.about-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.meta-item { padding: 1rem 1.2rem; background: rgba(0,220,255,0.03); border: 1px solid rgba(0,220,255,0.1); border-radius: 4px; }
+.meta-key { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.meta-val { font-family: var(--font-head); font-size: 0.88rem; color: var(--text); font-weight: 500; margin-top: 0.3rem; }
+
+/* ─── SKILLS ─── */
+#skills { background: rgba(0,220,255,0.01); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 4rem; }
+.skill-card { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.1); border-radius: 6px; padding: 1.5rem; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
+.skill-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(to bottom, var(--cyan), transparent); opacity: 0; transition: opacity 0.3s; }
+.skill-card:hover { border-color: rgba(0,220,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.skill-card:hover::before { opacity: 1; }
+.skill-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+.skill-icon { font-size: 1.4rem; }
+.skill-name { font-family: var(--font-head); font-size: 0.9rem; font-weight: 600; color: var(--text); }
+.skill-level-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.1em; margin-left: auto; }
+.skill-bar-bg { width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.skill-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(to right, var(--cyan), rgba(0,220,255,0.5)); width: 0; transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 8px rgba(0,220,255,0.4); }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.skill-tag { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-muted); letter-spacing: 0.08em; border: 1px solid rgba(255,255,255,0.08); padding: 0.2rem 0.5rem; border-radius: 2px; }
+
+/* ─── EXPERIENCE ─── */
+.timeline { margin-top: 4rem; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--cyan), rgba(0,220,255,0.1)); }
+.timeline-item { padding: 0 0 3.5rem 3rem; position: relative; }
+.timeline-item::before { content: ''; position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg-deep); border: 2px solid var(--cyan); box-shadow: 0 0 12px rgba(0,220,255,0.5); }
+.tl-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.tl-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.1em; }
+.tl-badge { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; border: 1px solid rgba(255,94,26,0.3); color: var(--orange); padding: 0.15rem 0.6rem; border-radius: 2px; }
+.tl-company { font-family: var(--font-head); font-size: 1.35rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+.tl-role { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); letter-spacing: 0.08em; margin-bottom: 1rem; }
+.tl-card { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.08); border-radius: 6px; padding: 1.5rem; }
+.tl-desc { font-size: 0.9rem; line-height: 1.75; color: var(--text-dim); margin-bottom: 1rem; }
+.tl-highlights { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tl-chip { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); background: rgba(0,220,255,0.05); border: 1px solid rgba(0,220,255,0.12); padding: 0.25rem 0.65rem; border-radius: 2px; letter-spacing: 0.07em; }
+
+/* ─── PROJECTS ─── */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+.project-card { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.1); border-radius: 8px; overflow: hidden; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; position: relative; }
+.project-card:hover { transform: translateY(-6px); border-color: rgba(0,220,255,0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+.project-header { height: 160px; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(0,220,255,0.06), rgba(255,94,26,0.04)); display: flex; align-items: center; justify-content: center; }
+.project-icon-large { font-size: 4rem; opacity: 0.7; }
+.project-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(0,220,255,0.08), transparent 70%); }
+.project-number { position: absolute; top: 1rem; right: 1rem; font-family: var(--font-mono); font-size: 0.65rem; color: rgba(0,220,255,0.3); letter-spacing: 0.1em; }
+.project-body { padding: 1.5rem; }
+.project-name { font-family: var(--font-head); font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+.project-desc { font-size: 0.88rem; line-height: 1.7; color: var(--text-dim); margin-bottom: 1.2rem; }
+.project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.project-tech-chip { font-family: var(--font-mono); font-size: 0.6rem; color: var(--cyan); background: rgba(0,220,255,0.07); border: 1px solid rgba(0,220,255,0.2); padding: 0.22rem 0.6rem; border-radius: 2px; letter-spacing: 0.07em; }
+.project-features { padding-top: 1rem; border-top: 1px solid rgba(0,220,255,0.07); }
+.project-features-title { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.project-feature { font-size: 0.82rem; color: var(--text-dim); padding: 0.2rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
+.project-feature::before { content: '→'; color: var(--cyan); font-size: 0.7rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+/* ─── AWARDS ─── */
+.awards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; margin-top: 4rem; }
+.award-card { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.1); border-radius: 8px; padding: 1.8rem; position: relative; overflow: hidden; transition: transform 0.3s, border-color 0.3s; }
+.award-card::after { content: ''; position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: radial-gradient(circle at top right, rgba(255,179,71,0.12), transparent); }
+.award-card:hover { transform: translateY(-4px); border-color: rgba(255,179,71,0.3); }
+.award-medal { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+.award-place { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.award-name { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+.award-org { font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.award-desc { font-size: 0.83rem; color: var(--text-dim); line-height: 1.65; }
+
+/* ─── CERTS ─── */
+.certs-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 4rem; }
+.cert-card { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.1); border-radius: 8px; padding: 2rem; flex: 1 1 340px; display: flex; gap: 1.5rem; align-items: flex-start; transition: transform 0.3s, border-color 0.3s; }
+.cert-card:hover { transform: translateY(-4px); border-color: rgba(0,220,255,0.3); }
+.cert-icon-wrap { width: 56px; height: 56px; flex-shrink: 0; background: linear-gradient(135deg, rgba(0,220,255,0.12), rgba(0,220,255,0.04)); border: 1px solid rgba(0,220,255,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+.cert-name { font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.cert-org { font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.cert-id { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.08em; }
+.cert-desc { font-size: 0.83rem; color: var(--text-dim); margin-top: 0.5rem; line-height: 1.6; }
+
+/* ─── CONTACT ─── */
+#contact { background: rgba(0,220,255,0.01); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; margin-top: 4rem; align-items: start; }
+.contact-info-title { font-family: var(--font-head); font-size: 1.8rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; line-height: 1.2; }
+.contact-sub { font-size: 0.95rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 2rem; }
+.contact-links { display: flex; flex-direction: column; gap: 0.9rem; }
+.contact-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; padding: 0.9rem 1.2rem; background: rgba(0,220,255,0.03); border: 1px solid rgba(0,220,255,0.1); border-radius: 5px; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+.contact-link:hover { background: rgba(0,220,255,0.07); border-color: rgba(0,220,255,0.3); transform: translateX(4px); }
+.contact-link-icon { font-size: 1.1rem; }
+.contact-link-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.contact-link-val { font-family: var(--font-head); font-size: 0.88rem; color: var(--text); font-weight: 500; margin-top: 0.15rem; }
+.contact-form { background: var(--bg-card); border: 1px solid rgba(0,220,255,0.1); border-radius: 8px; padding: 2.5rem; }
+.form-row { margin-bottom: 1.4rem; }
+.form-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+.form-input, .form-textarea { width: 100%; background: rgba(0,220,255,0.03); border: 1px solid rgba(0,220,255,0.15); border-radius: 4px; padding: 0.9rem 1rem; color: var(--text); font-family: var(--font-body); font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-input:focus, .form-textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,220,255,0.08); }
+.form-textarea { resize: vertical; min-height: 130px; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+
+/* ─── FOOTER ─── */
+footer { text-align: center; padding: 3rem 6%; border-top: 1px solid rgba(0,220,255,0.07); position: relative; z-index: 1; }
+.footer-logo { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.footer-copy { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.1em; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ─── GRID BG ─── */
+.grid-lines { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(0,220,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,220,255,0.025) 1px, transparent 1px); background-size: 80px 80px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 3rem; } .about-visual { max-width: 320px; } .contact-grid { grid-template-columns: 1fr; gap: 3rem; } .hero-badges { display: none; } .projects-grid { grid-template-columns: 1fr; } .skills-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
+@media (max-width: 640px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .section-wrap { padding: 5rem 5%; } .hero-stats { gap: 2rem; } }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="grid-lines"></div>
+<canvas id="particle-canvas"></canvas>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">IFM<span>.eng</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="mailto:ifhendam@gmail.com">Hire Me</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="hero-eyebrow">Mechatronics &amp; Robotics Engineering Portfolio</div>
+  <h1 class="hero-name">Ibrahim<br>Fayez <span class="accent">Mohamed</span></h1>
+  <p class="hero-title">Mechatronics &amp; Robotics Engineer &nbsp;·&nbsp; Ain Shams University · Egypt</p>
+  <p class="hero-tagline">Designing the machines of tomorrow — from 10 kg fixed-wing UAVs and custom flight controllers to PLC automation, robotic arms, and race car chassis. R&D Lead. CAD Expert. Aerospace Engineer in the making.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="#projects">View Projects</a>
+    <a class="btn-outline" href="#contact">Get In Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">3+</div>
+      <div class="hero-stat-label">Concurrent Roles</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5+</div>
+      <div class="hero-stat-label">Engineering Projects</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2×</div>
+      <div class="hero-stat-label">Competition Awards</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2027</div>
+      <div class="hero-stat-label">Expected Graduation</div>
+    </div>
+  </div>
+  <div class="hero-badges">
+    <div class="tech-badge">✈  Fixed-Wing UAV Design</div>
+    <div class="tech-badge">🔩  SolidWorks / CATIA V5</div>
+    <div class="tech-badge">🏎  Racing Chassis Member</div>
+    <div class="tech-badge">🤖  R&D Head · EDU-X</div>
+    <div class="tech-badge">💨  ANSYS CFD / OpenFOAM</div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-heading">Design.<br><span class="dim">Build. Fly.</span></h2>
+    <div class="about-grid">
+      <div class="about-visual reveal-left">
+        <div class="about-img-border">
+          <div class="about-avatar-placeholder">
+            <div class="avatar-icon">🛩️</div>
+            <div class="avatar-name">Ibrahim Fayez Mohamed</div>
+            <div class="avatar-role">Mechatronics &amp; Robotics Engineer</div>
+          </div>
+          <div class="about-status">
+            <span class="status-dot"></span>
+            Open to Opportunities · Cairo, Egypt
+          </div>
+        </div>
+        <div class="about-corner corner-tl"></div>
+        <div class="about-corner corner-br"></div>
+      </div>
+      <div class="about-text reveal-right">
+        <p>I'm a <strong>Mechatronics &amp; Robotics Engineering student</strong> at Ain Shams University (CGPA: Very Good), currently serving as <strong>R&D Head at EDU-X</strong>, where I lead complete technical tracks — from drone design to mechanical systems and software integration.</p>
+        <p>My engineering work spans <strong>UAV aerodynamics</strong> (ANSYS CFD, XFLR5, CATIA V5), autonomous vehicle control systems, biomedical device prototyping, and sheet-metal manufacturing design for industrial panel components at Powerline.</p>
+        <p>I also mentor the next generation — teaching Autodesk Inventor, Arduino, and robotics hands-on, and publishing a full <strong>Mechanics of Machines course</strong> on YouTube to make complex engineering accessible to students everywhere.</p>
+        <div class="about-highlight">
+          <span class="highlight-chip">UAV / Aerospace</span>
+          <span class="highlight-chip">CAD Design</span>
+          <span class="highlight-chip">CFD Analysis</span>
+          <span class="highlight-chip">Robotics</span>
+          <span class="highlight-chip">R&D Lead</span>
+          <span class="highlight-chip">Racing Teams</span>
+        </div>
+        <div class="about-meta">
+          <div class="meta-item">
+            <div class="meta-key">Location</div>
+            <div class="meta-val">Cairo, Egypt</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-key">University</div>
+            <div class="meta-val">Ain Shams University</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-key">Graduation</div>
+            <div class="meta-val">July 2027 (Expected)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-key">CGPA</div>
+            <div class="meta-val">Very Good</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ SKILLS ═══════════════ -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">02 — Skills</div>
+    <h2 class="section-heading">Technical<br><span class="dim">Arsenal</span></h2>
+    <div class="skills-grid" id="skills-grid">
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">🔩</span>
+          <span class="skill-name">Mechanical CAD</span>
+          <span class="skill-level-label">Expert</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">SolidWorks</span>
+          <span class="skill-tag">Inventor</span>
+          <span class="skill-tag">Fusion 360</span>
+          <span class="skill-tag">CATIA V5</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">💨</span>
+          <span class="skill-name">CFD / Simulation</span>
+          <span class="skill-level-label">Proficient</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="78"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">ANSYS Fluent</span>
+          <span class="skill-tag">OpenFOAM</span>
+          <span class="skill-tag">XFLR5</span>
+          <span class="skill-tag">Aerodynamics</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">✈</span>
+          <span class="skill-name">Aerospace / UAV</span>
+          <span class="skill-level-label">Proficient</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="76"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">Wing Sizing</span>
+          <span class="skill-tag">Airfoil Selection</span>
+          <span class="skill-tag">Stability Analysis</span>
+          <span class="skill-tag">Flight Controller</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">💻</span>
+          <span class="skill-name">Programming</span>
+          <span class="skill-level-label">Proficient</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">C / C++</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Arduino C</span>
+          <span class="skill-tag">Java</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">📐</span>
+          <span class="skill-name">FEA / Structural</span>
+          <span class="skill-level-label">Proficient</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="74"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">ANSYS Structural</span>
+          <span class="skill-tag">Stress Analysis</span>
+          <span class="skill-tag">GD&amp;T</span>
+          <span class="skill-tag">Sheet Metal</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">🤖</span>
+          <span class="skill-name">Robotics &amp; Embedded</span>
+          <span class="skill-level-label">Proficient</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="77"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">Arduino</span>
+          <span class="skill-tag">Motor Drivers</span>
+          <span class="skill-tag">Sensor Systems</span>
+          <span class="skill-tag">IoT Platforms</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">📊</span>
+          <span class="skill-name">Control Systems</span>
+          <span class="skill-level-label">Advanced</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="82"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">PID Control</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">Path Following</span>
+          <span class="skill-tag">Lateral/Longitudinal</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">🔌</span>
+          <span class="skill-name">Hands-On Electronics</span>
+          <span class="skill-level-label">Skilled</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="72"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">Circuit Analysis</span>
+          <span class="skill-tag">Soldering</span>
+          <span class="skill-tag">PCB Debug</span>
+          <span class="skill-tag">OBD / ECU</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-header">
+          <span class="skill-icon">🏭</span>
+          <span class="skill-name">Manufacturing</span>
+          <span class="skill-level-label">Skilled</span>
+        </div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="68"></div></div>
+        <div class="skill-tags">
+          <span class="skill-tag">Sheet Metal</span>
+          <span class="skill-tag">Busbar Design</span>
+          <span class="skill-tag">Reverse Engineering</span>
+          <span class="skill-tag">3D Printing</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ EXPERIENCE ═══════════════ -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label">03 — Experience</div>
+    <h2 class="section-heading">Roles &amp;<br><span class="dim">Industry</span></h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Feb 2025 – Present</span>
+          <span class="tl-badge">R&D / Education</span>
+        </div>
+        <div class="tl-company">EDU-X</div>
+        <div class="tl-role">Research &amp; Development Head</div>
+        <div class="tl-card">
+          <div class="tl-desc">Lead R&D projects from concept to full execution, including curriculum design, project prototyping, and technical documentation. Developed complete engineering tracks — Drone Systems, 3D Printing, and Mechanical Systems — covering design principles, component selection, and software integration. Collaborate with instructors to ensure all materials remain industry-relevant and pedagogically sound.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">Curriculum Design</span>
+            <span class="tl-chip">Drone Track</span>
+            <span class="tl-chip">3D Printer Track</span>
+            <span class="tl-chip">Project Prototyping</span>
+            <span class="tl-chip">Technical Documentation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Jan 2025 – Present</span>
+          <span class="tl-badge">Teaching</span>
+        </div>
+        <div class="tl-company">EDU-X</div>
+        <div class="tl-role">Robotics &amp; Mechanical Instructor</div>
+        <div class="tl-card">
+          <div class="tl-desc">Delivered hands-on training in Autodesk Inventor &amp; Fusion 360 covering 2D/3D design, assembly, and part modelling. Instructed Arduino programming — sensors, motor drivers, IoT — with real-world applications. Mentored teams to build a Line Follower Car, Obstacle-Avoidance Robot, Bluetooth-Controlled Car, and a 5-DOF Robotic Arm.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">Autodesk Inventor</span>
+            <span class="tl-chip">Fusion 360</span>
+            <span class="tl-chip">Arduino</span>
+            <span class="tl-chip">5-DOF Robotic Arm</span>
+            <span class="tl-chip">Student Mentoring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Jul 2025 – Present</span>
+          <span class="tl-badge">Biomedical</span>
+        </div>
+        <div class="tl-company">Human Centered Mechatronics</div>
+        <div class="tl-role">Biomedical Engineer · El-Demerdash Hospital</div>
+        <div class="tl-card">
+          <div class="tl-desc">Designed and prototyped a safe, clinically usable ear-cleaning device focused on patient comfort and precision. Integrated micro-scale suction mechanisms with an ergonomic casing to improve procedural accuracy and minimise patient discomfort — bridging mechatronics engineering with medical device requirements.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">Medical Device Design</span>
+            <span class="tl-chip">Micro-Suction Mechanism</span>
+            <span class="tl-chip">Ergonomic Prototyping</span>
+            <span class="tl-chip">Clinical Usability</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Jul 2025 – Aug 2025</span>
+          <span class="tl-badge">Manufacturing</span>
+        </div>
+        <div class="tl-company">Powerline</div>
+        <div class="tl-role">R&D Mechanical Engineer Intern</div>
+        <div class="tl-card">
+          <div class="tl-desc">Modelled panel parts and assemblies in SolidWorks Sheet Metal. Designed copper busbar connections for ABB ACBs (E6.2–E1.2) and MCCBs (XT1–XT7). Conducted reverse engineering workflows to identify optimisation opportunities in existing product designs, applying DfM and lean manufacturing principles.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">SolidWorks Sheet Metal</span>
+            <span class="tl-chip">Copper Busbar Design</span>
+            <span class="tl-chip">ABB ACB / MCCB</span>
+            <span class="tl-chip">Reverse Engineering</span>
+            <span class="tl-chip">DfM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Nov 2024 – Present</span>
+          <span class="tl-badge">Aerospace</span>
+        </div>
+        <div class="tl-company">AERO ASU</div>
+        <div class="tl-role">Team Leader — Structure &amp; Manufacturing</div>
+        <div class="tl-card">
+          <div class="tl-desc">Led a team of 15 members through structural and manufacturing design tasks, guiding the aircraft design process from conceptual through detailed design phases. Provided technical mentorship on aerospace structural principles, material selection, and manufacturing methods for lightweight airframe components.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">Team Leadership (15 members)</span>
+            <span class="tl-chip">Conceptual Design</span>
+            <span class="tl-chip">Structural Analysis</span>
+            <span class="tl-chip">Aerospace Manufacturing</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">Aug 2025 – Present</span>
+          <span class="tl-badge">Motorsport</span>
+        </div>
+        <div class="tl-company">Helwan Racing Team</div>
+        <div class="tl-role">Chassis Design Member</div>
+        <div class="tl-card">
+          <div class="tl-desc">Contributing to the structural design of the EV race car chassis frame in SolidWorks. Applying engineering judgement on ergonomics, weight distribution, and spatial packaging of batteries, motor, and driver — balancing structural integrity with performance and safety targets.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">SolidWorks Chassis</span>
+            <span class="tl-chip">Weight Distribution</span>
+            <span class="tl-chip">EV Packaging</span>
+            <span class="tl-chip">Structural Integrity</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="tl-meta">
+          <span class="tl-date">AC Racing Team</span>
+          <span class="tl-badge">Autonomous Vehicles</span>
+        </div>
+        <div class="tl-company">AC Racing Team</div>
+        <div class="tl-role">Control Engineer</div>
+        <div class="tl-card">
+          <div class="tl-desc">Designed and implemented robust lateral and longitudinal control systems for autonomous vehicle navigation. Developed and optimised path-following algorithms using Gradient Curve Pursuit for precise trajectory tracking. Integrated vehicle control strategies within the Roads2 simulation environment to enhance stability and high-speed handling performance.</div>
+          <div class="tl-highlights">
+            <span class="tl-chip">Lateral Control</span>
+            <span class="tl-chip">Longitudinal Control</span>
+            <span class="tl-chip">Gradient Curve Pursuit</span>
+            <span class="tl-chip">Roads2 Simulation</span>
+            <span class="tl-chip">Trajectory Tracking</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ PROJECTS ═══════════════ -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">04 — Projects</div>
+    <h2 class="section-heading">Engineering<br><span class="dim">Work</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">✈</span>
+          <span class="project-number">#001</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Fixed-Wing UAV — 10 kg Platform</div>
+          <div class="project-desc">Full aerodynamic design and analysis of a 10 kg fixed-wing UAV including weight estimation, wing sizing, and airfoil selection guided by CFD results. Performed stability analysis in XFLR5 and developed 3D models of the wing, fuselage, and tail surfaces in CATIA V5.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">CATIA V5</span>
+            <span class="project-tech-chip">ANSYS CFD</span>
+            <span class="project-tech-chip">XFLR5</span>
+            <span class="project-tech-chip">Aerodynamics</span>
+            <span class="project-tech-chip">Stability Analysis</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">Weight estimation &amp; wing sizing for 10 kg MTOW platform</div>
+            <div class="project-feature">Airfoil selection optimised via ANSYS Fluent CFD simulation</div>
+            <div class="project-feature">Full stability analysis (longitudinal &amp; lateral) with XFLR5</div>
+            <div class="project-feature">3D fuselage and tail assembly modelled in CATIA V5</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">🎮</span>
+          <span class="project-number">#002</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Custom UAV Flight Controller</div>
+          <div class="project-desc">Designed a bespoke flight controller for the fixed-wing UAV platform, covering hardware selection and full embedded software implementation. Developed PID and advanced control algorithms for stability, navigation, and autonomous flight, integrating IMU, GPS, and barometer sensors with HIL validation.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">Embedded C/C++</span>
+            <span class="project-tech-chip">PID Control</span>
+            <span class="project-tech-chip">IMU / GPS</span>
+            <span class="project-tech-chip">Barometer</span>
+            <span class="project-tech-chip">HIL Simulation</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">Custom hardware selection for weight-optimised controller board</div>
+            <div class="project-feature">PID + advanced algorithms for 3-axis stability and navigation</div>
+            <div class="project-feature">Multi-sensor fusion (IMU, GPS, barometer) in firmware</div>
+            <div class="project-feature">Simulation-first testing pipeline with HIL hardware validation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">💨</span>
+          <span class="project-number">#003</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Air Drag Braking Device</div>
+          <div class="project-desc">Designed and experimentally tested an aerodynamic drag device that successfully reduced a small car's speed to 50% of its maximum value using air drag forces alone. Applied fluid mechanics principles and iterative geometry refinement to maximise drag coefficient within packaging constraints.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">Fluid Mechanics</span>
+            <span class="project-tech-chip">Aerodynamic Design</span>
+            <span class="project-tech-chip">Drag Coefficient</span>
+            <span class="project-tech-chip">Physical Testing</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">50% top-speed reduction achieved through aerodynamic drag alone</div>
+            <div class="project-feature">Iterative geometry refinement to maximise drag coefficient</div>
+            <div class="project-feature">Validated experimentally on a physical scaled vehicle</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">⚙️</span>
+          <span class="project-number">#004</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Hydraulic Coupling — Power Transmission</div>
+          <div class="project-desc">Designed and physically built a hydraulic coupling to transmit rotational power from a motor to a pulley system used for lifting weights. Applied fluid power theory, seal design, and mechanical integration principles to produce a functional prototype demonstrating smooth torque transfer.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">Fluid Power</span>
+            <span class="project-tech-chip">Hydraulic Design</span>
+            <span class="project-tech-chip">Torque Transmission</span>
+            <span class="project-tech-chip">Mechanical Assembly</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">Functional hydraulic coupling prototype built and validated</div>
+            <div class="project-feature">Smooth torque transfer between motor shaft and pulley load</div>
+            <div class="project-feature">Seal design and fluid path routed within compact casing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">🦾</span>
+          <span class="project-number">#005</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Robot Link Design &amp; Optimisation</div>
+          <div class="project-desc">Designed a one-link robot arm driven by a geared DC motor in C++. The program performs bending moment calculation, stress analysis, link dimension optimisation, and motor–gearbox selection against a custom performance/cost function with user-defined material, geometry, and acceleration inputs.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">C++</span>
+            <span class="project-tech-chip">Stress Analysis</span>
+            <span class="project-tech-chip">Gearbox Selection</span>
+            <span class="project-tech-chip">Optimisation Algorithm</span>
+            <span class="project-tech-chip">Cost Function</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">Bending moment &amp; stress evaluation with safety limit checks</div>
+            <div class="project-feature">Iterative dimension optimisation via custom cost function</div>
+            <div class="project-feature">Motor–gearbox pair selection balancing performance and cost</div>
+            <div class="project-feature">User-configurable material, geometry, and acceleration inputs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-glow"></div>
+          <span class="project-icon-large">🏥</span>
+          <span class="project-number">#006</span>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Ear-Cleaning Medical Device Prototype</div>
+          <div class="project-desc">Designed and prototyped a precision ear-cleaning device for clinical use at El-Demerdash Hospital, integrating micro-scale suction mechanisms within an ergonomic housing. Focused on minimising patient discomfort while achieving procedural accuracy required in a clinical setting.</div>
+          <div class="project-tech">
+            <span class="project-tech-chip">Medical Design</span>
+            <span class="project-tech-chip">Micro-Suction</span>
+            <span class="project-tech-chip">Ergonomic CAD</span>
+            <span class="project-tech-chip">Clinical Prototyping</span>
+          </div>
+          <div class="project-features">
+            <div class="project-features-title">Key Engineering Outcomes</div>
+            <div class="project-feature">Micro-suction mechanism integrated in ergonomic form factor</div>
+            <div class="project-feature">Clinical usability testing with hospital staff feedback</div>
+            <div class="project-feature">Biocompatible material selection and safety-first design approach</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ AWARDS ═══════════════ -->
+<section id="awards">
+  <div class="section-wrap">
+    <div class="section-label">05 — Recognition</div>
+    <h2 class="section-heading">Awards &amp;<br><span class="dim">Achievements</span></h2>
+    <div class="awards-grid">
+
+      <div class="award-card reveal">
+        <span class="award-medal">🥇</span>
+        <div class="award-place">1st Place · National Competition</div>
+        <div class="award-name">Talented Care Center — Cairo GOV.</div>
+        <div class="award-org">Cairo Governorate · July – Aug 2017</div>
+        <div class="award-desc">Awarded first place for designing a traffic light control system and a motion-sensor–based people-counting system to track individuals entering and leaving spaces — an early showcase of embedded systems thinking.</div>
+      </div>
+
+      <div class="award-card reveal">
+        <span class="award-medal">🥈</span>
+        <div class="award-place">2nd Place · National Teams</div>
+        <div class="award-name">Business Case Competition — EVER 2024</div>
+        <div class="award-org">ASU Racing · EVER 2024 Competition</div>
+        <div class="award-desc">Developed and pitched two AI-powered business cases — an AI OBD diagnostic tool and an AI Dashcam safety system — securing 2nd place nationally out of competing university teams in the EVER 2024 competition.</div>
+      </div>
+
+      <div class="award-card reveal">
+        <span class="award-medal">📺</span>
+        <div class="award-place">Content Creator · YouTube</div>
+        <div class="award-name">Mechanics of Machines — Full Course</div>
+        <div class="award-org">Ibrahim Fayez · Jan 2025 – Present</div>
+        <div class="award-desc">Created and published a complete Mechanics of Machines video course, simplifying complex engineering theory for students and enthusiasts. Recognised for making quality engineering education accessible to Arabic-speaking learners.</div>
+      </div>
+
+    </div>
+
+    <!-- Education & Certs -->
+    <div class="section-label" style="margin-top: 4rem;">Education &amp; Certifications</div>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon-wrap">🎓</div>
+        <div class="cert-body">
+          <div class="cert-name">B.Eng. Mechatronics &amp; Robotics</div>
+          <div class="cert-org">Ain Shams University · Oct 2023 – Jul 2027</div>
+          <div class="cert-id">CGPA: Very Good · Junior Engineer Status</div>
+          <div class="cert-desc">Core modules: Control Systems, Robotics, Embedded Systems, Fluid Mechanics, Aerodynamics, Manufacturing, Mechanics of Machines, Electronics.</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon-wrap">🔧</div>
+        <div class="cert-body">
+          <div class="cert-name">Gasoline Engine Diagnostics</div>
+          <div class="cert-org">El-Safa Service Center · Jul – Aug 2020</div>
+          <div class="cert-id">100-Hour Technical Course</div>
+          <div class="cert-desc">Intensive training in troubleshooting, repair, and system analysis of gasoline-powered engines. OBD diagnostics, ECU systems, and fault isolation workflows.</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon-wrap">🚘</div>
+        <div class="cert-body">
+          <div class="cert-name">Mechanical &amp; Electrical Systems Trainee</div>
+          <div class="cert-org">EL-Reda Service Center · May – Oct 2017</div>
+          <div class="cert-id">Multi-Department Industrial Training</div>
+          <div class="cert-desc">Trained across electrical, mechanical, and body/paint departments. Gained early hands-on experience with OBD diagnostics, ECU systems, chassis repair, and vehicle bodywork.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-div"></div>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label">06 — Contact</div>
+    <h2 class="section-heading">Let's Build<br><span class="dim">Something</span></h2>
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <div class="contact-info-title">Available for engineering roles, research collaborations &amp; internships.</div>
+        <p class="contact-sub">I'm actively looking for opportunities in mechanical design, aerospace engineering, R&D, and robotics. Based in Cairo — open to on-site and remote projects across Egypt and beyond.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:ifhendam@gmail.com">
+            <span class="contact-link-icon">✉️</span>
+            <div class="contact-link-text">
+              <div class="contact-link-label">Email</div>
+              <div class="contact-link-val">ifhendam@gmail.com</div>
+            </div>
+          </a>
+          <a class="contact-link" href="tel:+201009086823">
+            <span class="contact-link-icon">📞</span>
+            <div class="contact-link-text">
+              <div class="contact-link-label">Phone</div>
+              <div class="contact-link-val">+20 100 908 6823</div>
+            </div>
+          </a>
+          <a class="contact-link" href="https://linkedin.com/in/ibrahim-fayez-00281231a/" target="_blank">
+            <span class="contact-link-icon">💼</span>
+            <div class="contact-link-text">
+              <div class="contact-link-label">LinkedIn</div>
+              <div class="contact-link-val">linkedin.com/in/ibrahim-fayez-00281231a</div>
+            </div>
+          </a>
+          <a class="contact-link" href="#">
+            <span class="contact-link-icon">▶️</span>
+            <div class="contact-link-text">
+              <div class="contact-link-label">YouTube</div>
+              <div class="contact-link-val">Mechanics of Machines by Ibrahim Fayez</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form reveal-right">
+        <div class="form-row">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" type="text" placeholder="e.g. Ahmed Hassan">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" placeholder="your@company.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Subject</label>
+          <input class="form-input" type="text" placeholder="Internship / Research Collaboration / Project">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell me about the opportunity or project..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; text-align:center; border:none;"
+          onclick="this.textContent='Message Sent ✓'; this.style.background='#00b890'; setTimeout(()=>this.textContent='Send Message',3000)">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-logo">IFM.eng</div>
+  <div class="footer-copy">© 2025 Ibrahim Fayez Mohamed · Mechatronics &amp; Robotics Engineering · Ain Shams University · Cairo, Egypt</div>
+</footer>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+/* ─ CURSOR ─ */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function loop(){
+  rx += (mx-rx)*0.15; ry += (my-ry)*0.15;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.skill-card,.project-card,.cert-card,.contact-link,.award-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ ring.style.width='52px'; ring.style.height='52px'; ring.style.borderColor='var(--cyan)'; });
+  el.addEventListener('mouseleave',()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(0,220,255,0.45)'; });
+});
+
+/* ─ PARTICLES ─ */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles=[];
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+class Particle {
+  constructor(){ this.reset(); }
+  reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-0.5)*0.35; this.vy=(Math.random()-0.5)*0.35; this.r=Math.random()*1.5+0.3; this.a=Math.random()*0.5+0.1; }
+  update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
+  draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=`rgba(0,220,255,${this.a})`; ctx.fill(); }
+}
+for(let i=0;i<120;i++) particles.push(new Particle());
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<110){ ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(0,220,255,${0.12*(1-dist/110)})`; ctx.lineWidth=0.5; ctx.stroke(); }
+    }
+  }
+}
+function animate(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{ p.update(); p.draw(); }); drawLines(); requestAnimationFrame(animate); }
+animate();
+
+/* ─ SCROLL REVEAL ─ */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>observer.observe(el));
+document.querySelectorAll('.skill-card').forEach(el=>{
+  new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('.skill-bar-fill').forEach(b=>{ b.style.width=b.dataset.width+'%'; }); } });
+  }, { threshold: 0.3 }).observe(el);
+});
+
+/* ─ NAV SCROLL ─ */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').style.background = window.scrollY>60 ? 'rgba(2,12,24,0.92)' : 'rgba(2,12,24,0.6)';
+});
+
+/* ─ STAGGER ─ */
+document.querySelectorAll('.skills-grid .skill-card').forEach((el,i)=>{ el.style.transitionDelay=(i*0.07)+'s'; });
+document.querySelectorAll('.projects-grid .project-card').forEach((el,i)=>{ el.style.transitionDelay=(i*0.08)+'s'; });
+document.querySelectorAll('.awards-grid .award-card').forEach((el,i)=>{ el.style.transitionDelay=(i*0.1)+'s'; });
+</script>
+</body>
+</html>
